@@ -5,10 +5,19 @@ shopt -s extglob
 
 INPUT=$1
 
+output_redirect() {
+uri=$1
+cat <<EOF
+<html><head>
+<meta http-equiv="REFRESH" content="0;${uri}">
+</head></html>
+EOF
+}
+
 # If INPUT is a SHA1, git cat-file -p it.  This is the URI, and we are done.
 case "${INPUT}" in
     +([0-9a-f]) )
-    git cat-file -p ${INPUT}
+    output_redirect $(git cat-file -p ${INPUT})
     exit 0;;
 esac
 
