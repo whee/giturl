@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# If INPUT is a SHA1, git cat-file -p it.  This is the URI, and we are done.
+
+# If INPUT is not a SHA1, assume it is a URI.
+
+# To add a URI to our database:
+# Get a blob hash for it.  We will store this for VC purposes later, so write
+# it too.
+# 1. blob = echo -n URI | git hash-object -w --stdin
+# 1a. Stat bl/ob_SHA1.  If the blob is there, exit.  The URI is already
+#     tracked.
+#
+# Create a file with the URI as its contents.
+# 2. echo -n URI > bl/ob_SHA1
+#
+# Stage the new file.
+# 3. git add bl/ob_SHA1
+#
+# And commit it with as much as identifying information as possible.
+# 4. GIT_AUTHOR=ip-address git commit -m 'Add URI\nUSER-AGENT\nMORE_IDENT'
