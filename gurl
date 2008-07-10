@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (c) 2008, Brian Hetro <whee@smaertness.net>
+
 shopt -s extglob
 
 INPUT=$1
