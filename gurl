@@ -7,6 +7,7 @@ INPUT=$1
 
 output_redirect() {
 uri=$1
+test "${uri}" || return
 cat <<EOF
 <html><head>
 <meta http-equiv="REFRESH" content="0;${uri}">
