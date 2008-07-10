@@ -7,7 +7,9 @@ INPUT=$1
 
 # If INPUT is a SHA1, git cat-file -p it.  This is the URI, and we are done.
 case "${INPUT}" in
-    +([0-9a-f]) ) git cat-file -p ${INPUT};;
+    +([0-9a-f]) )
+    git cat-file -p ${INPUT}
+    exit 0;;
 esac
 
 # If INPUT is not a SHA1, assume it is a URI.
