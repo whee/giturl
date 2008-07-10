@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
+shopt -s extglob
+
+INPUT=$1
 
 # If INPUT is a SHA1, git cat-file -p it.  This is the URI, and we are done.
+case "${INPUT}" in
+    +([0-9a-f]) ) git cat-file -p ${INPUT};;
+esac
 
 # If INPUT is not a SHA1, assume it is a URI.
 
@@ -8,14 +14,27 @@
 # Get a blob hash for it.  We will store this for VC purposes later, so write
 # it too.
 # 1. blob = echo -n URI | git hash-object -w --stdin
+blob=$(echo -n ${INPUT} | git hash-object -w --stdin)
+blob_dir=$(echo ${blob} | cut -c -2)
+blob_rest=$(echo ${blob} | cut -c 3-)
+blob_file="${blob_dir}/${blob_rest}"
+
 # 1a. Stat bl/ob_SHA1.  If the blob is there, exit.  The URI is already
 #     tracked.
-#
+if test -f "${blob_file}"
+then
+    exit 0
+fi
+
 # Create a file with the URI as its contents.
 # 2. echo -n URI > bl/ob_SHA1
-#
+test -d "${blob_dir}" || mkdir "${blob_dir}"
+echo -n "${INPUT}" > "${blob_file}"
+
 # Stage the new file.
 # 3. git add bl/ob_SHA1
-#
+git add "${blob_file}"
+
 # And commit it with as much as identifying information as possible.
 # 4. GIT_AUTHOR=ip-address git commit -m 'Add URI\nUSER-AGENT\nMORE_IDENT'
+git commit -m "Add ${INPUT}"
