@@ -62,7 +62,14 @@ git add "${blob_file}"
 
 # And commit it with as much as identifying information as possible.
 # 4. GIT_AUTHOR=ip-address git commit -m 'Add URI\nUSER-AGENT\nMORE_IDENT'
-git commit -qm "Add ${INPUT}"
+
+GIT_AUTHOR_NAME="${REMOTE_ADDR}"
+GIT_AUTHOR_EMAIL="gurl@${SERVER_NAME}"
+export GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL
+
+git commit -qm "Add ${INPUT}
+
+${HTTP_USER_AGENT}"
 
 # Finally, give the link to the client.
 output_uri "${blob}"
