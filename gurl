@@ -5,9 +5,30 @@ shopt -s extglob
 
 INPUT=$1
 
+text_html() {
+    echo "Content-type: text/html"
+}
+
+text_plain() {
+    echo "Content-type: text/plain"
+}
+
+location() {
+    echo "Location: $1"
+}
+
+end_header() {
+    echo
+}
+
 output_redirect() {
 uri=$1
 test "${uri}" || return
+
+text_html
+location "${uri}"
+end_header
+
 cat <<EOF
 <html><head>
 <meta http-equiv="REFRESH" content="0;${uri}">
@@ -34,13 +55,13 @@ blob_rest=$(echo ${blob} | cut -c 3-)
 blob_file="${blob_dir}/${blob_rest}"
 
 output_uri() {
-blob=$1
-loc=http://${SERVER_NAME}${SCRIPT_NAME}?${blob}
-cat <<EOF
-<html><body>
-<a href="${loc}">${loc}</a>
-</body></html>
-EOF
+blob="$1"
+loc="http://${SERVER_NAME}${SCRIPT_NAME}?${blob}"
+
+text_plain
+end_header
+
+echo ${loc}
 }
 
 # 1a. Stat bl/ob_SHA1.  If the blob is there, output the link referencing it.
