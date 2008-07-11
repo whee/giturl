@@ -3,7 +3,13 @@
 
 shopt -s extglob
 
-INPUT=$1
+if test -z "${QUERY_STRING}"
+then
+    INPUT="$1"
+    REMOTE_ADDR="localhost"
+else
+    INPUT="${QUERY_STRING}"
+fi
 
 text_html() {
     echo "Content-type: text/html"
