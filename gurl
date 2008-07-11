@@ -22,7 +22,7 @@ end_header() {
 }
 
 output_redirect() {
-uri=$1
+uri="$1"
 test "${uri}" || return
 
 text_html
@@ -39,7 +39,7 @@ EOF
 # If INPUT is a SHA1, git cat-file -p it.  This is the URI, and we are done.
 case "${INPUT}" in
     +([0-9a-f]) )
-    output_redirect $(git cat-file -p ${INPUT})
+    output_redirect $(git cat-file -p "${INPUT}")
     exit 0;;
 esac
 
@@ -49,9 +49,9 @@ esac
 # Get a blob hash for it.  We will store this for VC purposes later, so write
 # it too.
 # 1. blob = echo -n URI | git hash-object -w --stdin
-blob=$(echo -n ${INPUT} | git hash-object -w --stdin)
-blob_dir=$(echo ${blob} | cut -c -2)
-blob_rest=$(echo ${blob} | cut -c 3-)
+blob=$(echo -n "${INPUT}" | git hash-object -w --stdin)
+blob_dir=$(echo "${blob}" | cut -c -2)
+blob_rest=$(echo "${blob}" | cut -c 3-)
 blob_file="${blob_dir}/${blob_rest}"
 
 output_uri() {
@@ -61,7 +61,7 @@ loc="http://${SERVER_NAME}${SCRIPT_NAME}?${blob}"
 text_plain
 end_header
 
-echo ${loc}
+echo "${loc}"
 }
 
 # 1a. Stat bl/ob_SHA1.  If the blob is there, output the link referencing it.
