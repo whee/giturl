@@ -1,5 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/local/bin/bash
 # Copyright (c) 2008, Brian Hetro <whee@smaertness.net>
+PATH=/usr/local/bin:$PATH
 
 shopt -s extglob
 
