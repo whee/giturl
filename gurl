@@ -43,10 +43,35 @@ cat <<EOF
 EOF
 }
 
+output_index_page() {
+text_html
+end_header
+
+cat <<EOF
+<html><head><title>URI shortening</title></head>
+<body>
+<p>Welcome to a URI shortening service.  To obtain a shortened URI,
+enter this in your address bar:
+<pre>http://${SERVER_NAME}${SCRIPT_NAME}?<i>[URI to shorten]</i></pre>
+</p>
+
+<p>For example, <pre><i>http://${SERVER_NAME}${SCRIPT_NAME}?http://example.com</i></pre></p>
+
+<p>The URI you receive redirects to the URI you have provided.</p>
+
+<hr />
+This service is <a href="http://github.com/whee/giturl/tree/master">open source</a>, powered by <a href="http://git.or.cz/">git</a>.
+</body>
+EOF
+}
+
 # If INPUT is a SHA1, git cat-file -p it.  This is the URI, and we are done.
 case "${INPUT}" in
     +([0-9a-f]) )
     output_redirect $(git cat-file -p "${INPUT}")
+    exit 0;;
+    "" )
+    output_index_page
     exit 0;;
 esac
 
