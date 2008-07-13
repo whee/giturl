@@ -63,6 +63,7 @@ blob_file="${blob_dir}/${blob_rest}"
 
 output_uri() {
 blob="$1"
+blob=$(echo "${blob}" | cut -c -10)
 loc="http://${SERVER_NAME}${SCRIPT_NAME}?${blob}"
 
 text_plain
