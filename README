@@ -1,0 +1,40 @@
+GitUrl README
+=============
+Brian Hetro <whee@smaertness.net>
+
+GitUrl provides a Tiny URL-like service.  Given a URL, it will produce
+a shorter URI -- easier to remember, paste, or write down.
+
+GitUrl requires the link:http://git.or.cz/[git] content tracker to operate.
+
+Rationale
+---------
+GitUrl was created as an easy-to-configure alternate to Tiny URL in
+situations where URLs may contain sensitive information, e.g., the
+internal company network.  In these cases, it is trivial to set up
+GitUrl on an internal web server to provide URL shortening service so
+that URLs are not leaked to external service providers.
+
+Installation
+------------
+GitUrl is a single shell script, typically called as a CGI program.
+To set up GitUrl, follow these steps:
+
+. Copy gurl to the desired CGI-enabled web server path.
+. In that path, and as the web server user, set up a git repository
+with "git init".  This repository tracks URLs added.
+. You may have to modify the path to the shell and PATH in the gurl
+script if your system has them in a different location.
+
+Usage
+-----
+To obtain a shorter URL, navigate to
++http://your.server/gurl.location?'URL_to_shorten'+.  The shortened
+URL is returned.
+
+When retrieved, this URL redirects to the original URL given.
+
+Backend
+-------
+The URL database is managed with git.  This has all sorts of interesting
+consequences which you are encouraged to investigate.
