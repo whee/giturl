@@ -62,6 +62,7 @@ enter this in your address bar:
 <hr />
 This service is <a href="http://github.com/whee/giturl/tree/master">open source</a>, powered by <a href="http://git.or.cz/">git</a>.
 </body>
+</html>
 EOF
 }
 
